@@ -3,7 +3,17 @@ version: "2"
 services:
   app:
     image: hotelobject
+    networks:
+      - micro-hotel
+    ports:
+      - "1234:1234"
 
   mongodb:
     image: mongo
     command: mongod --smallfiles --quiet --logpath=/dev/null
+    networks:
+      - micro-hotel
+
+networks:
+  micro-hotel:
+    driver: bridge

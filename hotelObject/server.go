@@ -23,7 +23,7 @@ func main() {
 	e.Use(middleware.Logger())
 
 	//set up Db
-	db, err := mgo.Dial("localhost:27017")
+	db, err := mgo.Dial("mongodb:27017")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}

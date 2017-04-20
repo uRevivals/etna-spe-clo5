@@ -1,6 +1,12 @@
 version: "2"
 
 services:
+  mongodb:
+    image: mongo
+    command: mongod
+    networks:
+      - micro-hotel
+  
   app:
     image: hotelobject
     networks:
@@ -8,11 +14,7 @@ services:
     ports:
       - "1234:1234"
 
-  mongodb:
-    image: mongo
-    command: mongod
-    networks:
-      - micro-hotel
+  
 
 networks:
   micro-hotel:

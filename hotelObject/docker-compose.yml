@@ -7,5 +7,6 @@ services:
       - .:/home/benoit/go/src/hotelObject
     working_dir: /home/benoit/go/src/hotelObject
     command: go build && ./hotelObject
+
   mongodb:
-    image: mongodb:debian
+    image: mongo

@@ -3,10 +3,7 @@ version: "2"
 services:
   app:
     image: golang:1.8
-    volumes:
-      - .:/home/benoit/go/src/hotelObject
-    working_dir: /home/benoit/go/src/hotelObject
-    command: go build && ./hotelObject
+    command: go get -u github.com/uRevivals/etna-spe-clo5
 
   mongodb:
     image: mongo

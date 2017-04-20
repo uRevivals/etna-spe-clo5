@@ -3,7 +3,7 @@ version: "2"
 services:
   app:
     image: golang:1.8
-    command: go get github.com/uRevivals/etna-spe-clo5/tree/master/hotelObject
+    command: go get github.com/uRevivals/etna-spe-clo5/hotelObject
 
   mongodb:
     image: mongo

@@ -1,0 +1,43 @@
+version: "2"
+
+services:
+  mongodb:
+    image: mongo
+    command: mongod
+    networks:
+      - micro-hotel
+  
+  reservation:
+    build: ./reservation
+    networks:
+      - micro-hotel
+    ports:
+      - "8080:8080"
+    environment:
+       - APP_PORT=8080
+       - HOTEL_URL=hotel
+       - USER_URL=user
+  
+  user:
+    build: ./user
+    networks:
+      - micro-hotel
+    ports:
+      - "8080:1235"
+    environment:
+       - APP_PORT=8080
+
+  hotel:
+    build: ./hotelObject
+    networks:
+      - micro-hotel
+    ports:
+      - "8080:1234"
+    environment:
+       - APP_PORT=8080
+
+  
+
+networks:
+  micro-hotel:
+    driver: bridge

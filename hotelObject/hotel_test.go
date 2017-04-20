@@ -100,6 +100,7 @@ func TestPopulateDb(t *testing.T) {
 	}
 }
 
+/*
 func TestDeleteDb(t *testing.T) {
 	//Setup
 	e := echo.New()
@@ -126,3 +127,4 @@ func TestDeleteDb(t *testing.T) {
 		}
 	}
 }
+*/

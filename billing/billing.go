@@ -1,4 +1,4 @@
-package billing
+package main
 
 import (
 	"gopkg.in/mgo.v2/bson"
@@ -6,9 +6,9 @@ import (
 
 type (
 	Billing struct {
-		ID    bson.ObjectId `json:"id" bson:"_id,omitempty"`
-		For   bson.ObjectId
-		Email string `json:"email" bson:"email"`
-		Time  int64
+		ID    bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+		For   bson.ObjectId `json:"userid" bson:"userid,omitempty"`
+		Email string        `json:"email" bson:"email"`
+		Time  int64         `json:"time,omitempty" bson:"time,omitempty"`
 	}
 )

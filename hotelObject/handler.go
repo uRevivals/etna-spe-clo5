@@ -12,6 +12,13 @@ type Handler struct {
 	DB *mgo.Session
 }
 
+type reservations struct {
+	ID               bson.ObjectId   `json:"id,omitempty" bson:"_id,omitempty"`
+	ReservedDates    []int64         `json:"ReservedDates" bson:"ReservedDates"`
+	ConcernedObjects []bson.ObjectId `json:"ConcernedObjects" bson:"ConcernedObjects"`
+	UserID           bson.ObjectId   `json:"userid" bson:"userid"`
+}
+
 const (
 	// Key (Should come from somewhere else).
 	Key = "secret"
@@ -107,4 +114,58 @@ func (h *Handler) DeleteObject(c echo.Context) (err error) {
 	}
 
 	return c.JSON(http.StatusOK, "Object Deleted")
+}
+
+func (h *Handler) CheckReservation(c echo.Context) (err error) {
+	protoReservation := new(reservations)
+	item := new(hotelObject)
+	if err = c.Bind(protoReservation); err != nil {
+		return
+	}
+
+	db := h.DB.Clone()
+	defer db.Close()
+	for _, element := range protoReservation.ConcernedObjects {
+		if err == db.DB("hotel").C("hotelobject").FindId(element).One(item) {
+			for _, date := range protoReservation.ReservedDates {
+				for _, alreadyReserved := range item.Reservations {
+					if date == alreadyReserved {
+						return c.JSON(http.StatusBadRequest, "Object :"+bson.ObjectId.Hex(element)+" Already reserved for one ore less date")
+					}
+				}
+			}
+		}
+	}
+
+	return c.JSON(http.StatusOK, "Reservation Validate")
+}
+
+func (h *Handler) ValidateReservation(c echo.Context) (err error) {
+	protoReservation := new(reservations)
+	item := new(hotelObject)
+	if err = c.Bind(protoReservation); err != nil {
+		return
+	}
+
+	db := h.DB.Clone()
+	defer db.Close()
+	for _, element := range protoReservation.ConcernedObjects {
+		if err = db.DB("hotel").C("hotelobject").FindId(element).One(item); err != nil {
+			if err == mgo.ErrNotFound {
+				return &echo.HTTPError{Code: http.StatusNotFound, Message: "invalid object Id"}
+			}
+		}
+		for _, date := range protoReservation.ReservedDates {
+			for _, alreadyReserved := range item.Reservations {
+				if date == alreadyReserved {
+					return c.JSON(http.StatusBadRequest, "Object :"+bson.ObjectId.Hex(element)+" Has benn reserved for one ore less date")
+				}
+			}
+			item.Reservations = append(item.Reservations, date)
+		}
+		if err = db.DB("hotel").C("hotelobject").Update(bson.M{"_id": element}, item); err != nil {
+			return
+		}
+	}
+	return c.JSON(http.StatusOK, "Object Validate")
 }

@@ -14,7 +14,7 @@ func main() {
 	port := os.Getenv("APP_PORT")
 	// If none is defined we start on default one
 	if port == "" {
-		port = "8080"
+		port = "1234"
 	}
 
 	//set Up framework
@@ -37,6 +37,8 @@ func main() {
 	e.GET("/objects/:id", h.GetObject)
 	e.DELETE("/objects/:id", h.DeleteObject)
 	e.POST("/objects/find", h.FindType)
+	e.POST("/objects/checkreservation/", h.CheckReservation)
+	e.POST("/objects/reservation/", h.ValidateReservation)
 
 	e.Logger.Fatal(e.Start(":" + port))
 }

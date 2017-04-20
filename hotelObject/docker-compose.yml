@@ -1,0 +1,8 @@
+version: "2"
+
+services:
+  app:
+    image: golang:1.8
+    volumes:
+      - .:/go/src/github.com/uRevivals/microservice/hotelObject
+    working_dir: /go/src/go-with-compose

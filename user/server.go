@@ -14,7 +14,7 @@ func main() {
 	port := os.Getenv("APP_PORT")
 	// If none is defined we start on default one
 	if port == "" {
-		port = "8080"
+		port = "1235"
 	}
 
 	//set Up framework

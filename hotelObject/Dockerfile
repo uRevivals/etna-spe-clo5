@@ -1,8 +1,8 @@
 FROM golang
 
-ADD . /go/src/github.com/uRevivals/microservice/hotelObject
+ADD . /go/src/hotelObject
 
-RUN go install github.com/uRevivals/microservice/hotelObject
+RUN cd hotelObject && go get /go/src/hotelObject && go install
 
 ENTRYPOINT /go/bin/hotelObject
 

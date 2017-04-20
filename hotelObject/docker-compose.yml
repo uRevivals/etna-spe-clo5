@@ -7,3 +7,4 @@ services:
 
   mongodb:
     image: mongo
+    command: mongod --smallfiles --quiet --logpath=/dev/null

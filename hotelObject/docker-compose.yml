@@ -4,5 +4,8 @@ services:
   app:
     image: golang:1.8
     volumes:
-      - .:/go/src/github.com/uRevivals/microservice/hotelObject
-    working_dir: /go/src/go-with-compose
+      - .:/home/benoit/go/src/hotelObject
+    working_dir: /home/benoit/go/src/hotelObject
+    command: go build && ./hotelObject
+  mongodb:
+    image: mongodb:debian
